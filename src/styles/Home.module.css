@@ -38,8 +38,8 @@
 
 .box {
   background-color: #fafafa;
-  padding: 14px 44px;
-  border-radius: 4px;
+  padding: 12px 34px;
+  border-radius: 24px;
   transition: transform 0.4s;
 }
 
