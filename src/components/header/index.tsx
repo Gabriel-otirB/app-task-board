@@ -3,7 +3,6 @@ import Link from 'next/link';
 import styles from './styles.module.css';
 
 const Header = () => {
-
   const { data: session, status } = useSession();
 
   return (
