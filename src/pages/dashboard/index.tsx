@@ -129,7 +129,7 @@ const Dashboard = ({ user }: HomeProps) => {
                 <label>Deixar tarefa publica?</label>
               </div>
 
-              <button className={styles.button} type='submit'>Registar</button>
+              <button className={styles.button} type='submit'>Registrar</button>
             </form>
 
           </div>

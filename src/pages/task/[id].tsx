@@ -7,7 +7,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
 
 import { db } from '../../services/firebaseConnection';
-import { doc, collection, query, where, getDoc, getDocs, addDoc, } from 'firebase/firestore';
+import { doc, collection, query, where, getDoc, getDocs, addDoc, deleteDoc } from 'firebase/firestore';
 
 import TextArea from '../../components/textArea';
 
@@ -66,7 +66,19 @@ const Task = ({ item, allComments }: TaskProps) => {
     } catch (error) {
       console.log(error)
     }
+  }
 
+  const handleDeleteComment = async (id: string) => {
+    try {
+      const docRef = (doc(db, "comments", id));
+      await deleteDoc(docRef);
+
+      const deleteComment = comments.filter((comment) => comment.id !== id);
+
+      setComments(deleteComment);
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -108,7 +120,7 @@ const Task = ({ item, allComments }: TaskProps) => {
                 }
                 {item.user === session?.user?.email && (
                   <button className={styles.buttonTrash}>
-                    <FaTrash size={18} color='#EA3140' />
+                    <FaTrash size={18} color='#EA3140' onClick={() => handleDeleteComment(item.id)} />
                   </button>
                 )}
               </div>

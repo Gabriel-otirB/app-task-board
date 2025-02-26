@@ -45,6 +45,12 @@
   background-color: #0053ff;
   padding: 12px 0;
   font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+  background-color: #003296;
 }
 
 .taskContainer {
@@ -76,6 +82,12 @@
   border: 1.5px solid #909090;
   border-radius: 4px;
   padding: 14px;
+  transition: all 0.3s ease-in-out;
+}
+
+.task:hover {
+  border-color: #0053ff;
+  background-color: #dddddd4d;
 }
 
 .tagContainer {

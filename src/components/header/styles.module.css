@@ -43,13 +43,13 @@
   border: 1.5px solid #fff;
   cursor: pointer;
   transition: all 0.4s ease-in-out;
+  font-weight: bold;
 }
 
 .loginButton:hover {
   transform: scale(1.08);
   background-color: #fff;
   color: #0f0f0f;
-  font-weight: bold;
 }
 
 .nav {
@@ -63,4 +63,10 @@
   padding: 4px 14px;
   border-radius: 14px;
   margin: 0 14px;
+  font-weight: 500;
+  transition: all 0.4s ease-in-out;
+}
+
+.link:hover {
+  transform: scale(1.08);
 }
