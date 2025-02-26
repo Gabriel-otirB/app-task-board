@@ -4,9 +4,10 @@ import { GetServerSideProps } from 'next';
 import { useSession } from 'next-auth/react';
 
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { FaTrash } from 'react-icons/fa';
 
 import { db } from '../../services/firebaseConnection';
-import { doc, collection, query, where, getDoc, addDoc, } from 'firebase/firestore';
+import { doc, collection, query, where, getDoc, getDocs, addDoc, } from 'firebase/firestore';
 
 import TextArea from '../../components/textArea';
 
@@ -17,14 +18,24 @@ interface TaskProps {
     public: boolean;
     user: string;
     taskId: string;
-  }
+  },
+  allComments: CommentProps[]
 }
 
-const Task = ({ item }: TaskProps) => {
+interface CommentProps {
+  id: string;
+  comment: string;
+  taskId: string;
+  user: string;
+  name: string;
+}
+
+const Task = ({ item, allComments }: TaskProps) => {
 
   const { data: session } = useSession();
 
   const [input, setInput] = useState("");
+  const [comments, setComments] = useState<CommentProps[]>(allComments || []);
 
   const handleComment = async (event: FormEvent) => {
     event.preventDefault();
@@ -40,10 +51,18 @@ const Task = ({ item }: TaskProps) => {
         user: session?.user?.email,
         name: session?.user?.name,
         taskId: item?.taskId
-      })
+      });
 
+      const data = {
+        id: docRef.id,
+        comment: input,
+        user: session?.user?.email,
+        name: session?.user?.name,
+        taskId: item?.taskId
+      }
+
+      setComments((prevComments) => [...prevComments, data]);
       setInput('');
-
     } catch (error) {
       console.log(error)
     }
@@ -73,6 +92,33 @@ const Task = ({ item }: TaskProps) => {
         </form>
       </section>
 
+      <section className={styles.commentsContainer}>
+        <h2>Todos comentários</h2>
+        {comments.length == 0 && (
+          <span>Nenhum comentário foi encontrado...</span>
+        )}
+
+        {
+          comments.map((item) => (
+            <article key={item.id} className={styles.comment}>
+              <div className={styles.headComment}>
+                {item.user === session?.user?.email ?
+                  (<label className={styles.commentsLabel}>{item.name}</label>) :
+                  (<label className={styles.ownerCommentsLabel}>{item.name}</label>)
+                }
+                {item.user === session?.user?.email && (
+                  <button className={styles.buttonTrash}>
+                    <FaTrash size={18} color='#EA3140' />
+                  </button>
+                )}
+              </div>
+              <p>{item.comment}</p>
+            </article>
+          ))
+        }
+
+      </section>
+
     </div>
   )
 }
@@ -80,12 +126,24 @@ const Task = ({ item }: TaskProps) => {
 export default Task
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-
   const id = params?.id as string;
-
   const docRef = doc(db, 'tarefas', id)
 
+  const q = query(collection(db, "comments"), where("taskId", "==", id));
+  const snapshotComments = await getDocs(q);
+
+  let allComments: CommentProps[] = [];
+
   const snapshot = await getDoc(docRef);
+  snapshotComments.forEach((doc) => {
+    allComments.push({
+      id: doc.id,
+      comment: doc.data().comment,
+      user: doc.data().user,
+      name: doc.data().name,
+      taskId: doc.data().taskId,
+    })
+  });
 
   if (snapshot.data() === undefined) {
     return {
@@ -118,6 +176,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   return {
     props: {
       item: task,
+      allComments: allComments,
     },
   }
 
