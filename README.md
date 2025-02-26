@@ -1,40 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Task Board
 
-## Getting Started
+Task Board é uma aplicação para gerenciamento de tarefas que permite a criação de tarefas públicas e privadas. As tarefas públicas podem ser visualizadas por outras pessoas, que também podem adicionar comentários para colaborar. Os usuários podem excluir suas próprias tarefas e comentários.
 
-First, run the development server:
+O login na aplicação é feito via Google Gmail, utilizando autenticação OAuth do Google.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+https://github.com/user-attachments/assets/8eefdc8f-2b51-4e39-b2ea-9fc8c76f41e3
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologias Utilizadas
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- React
+- Next.js
+- TypeScript
+- Firebase (como base de dados)
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Configuração do Projeto
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+1. Clone o repositório:
+   ```sh
+   git clone https://github.com/seu-usuario/task-board.git
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Instale as dependências:
+   ```sh
+   cd task-board
+   npm install
+   ```
 
-## Learn More
+3. Configure o Firebase:
+   - Substitua as configurações legadas do Firebase no arquivo `firebaseConnection.ts` com suas próprias credenciais.
 
-To learn more about Next.js, take a look at the following resources:
+4. Crie um arquivo `.env` na raiz do projeto e adicione as seguintes configurações para a autenticação do Google:
+   ```env
+   GOOGLE_CLIENT_ID=
+   GOOGLE_CLIENT_SECRET=
+   
+   NEXTAUTH_URL=
+   
+   JWT_SECRET=
+   
+   NEXT_PUBLIC_URL=
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+5. Inicie o projeto em modo de desenvolvimento:
+   ```sh
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Funcionalidades
+- Login via Google Gmail.
+- Criar tarefas públicas e privadas.
+- Visualizar tarefas públicas.
+- Comentar em tarefas públicas.
+- Excluir suas próprias tarefas e comentários.
 
-## Deploy on Vercel
+## Contribuição
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Fork o repositório.
+2. Crie um branch para sua funcionalidade:
+   ```sh
+   git checkout -b minha-funcionalidade
+   ```
+3. Faça suas alterações e commit:
+   ```sh
+   git commit -m "Adicionando nova funcionalidade"
+   ```
+4. Envie para o repositório remoto:
+   ```sh
+   git push origin minha-funcionalidade
+   ```
+5. Abra um Pull Request.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+## Licença
+
+Este projeto é distribuído sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
