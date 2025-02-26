@@ -10,7 +10,8 @@ import { FaTrash } from 'react-icons/fa';
 
 import { db } from '../../services/firebaseConnection';
 
-import { addDoc, collection, query, orderBy, where, onSnapshot } from 'firebase/firestore';
+import { addDoc, collection, query, orderBy, where, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
+import Link from 'next/link';
 
 interface HomeProps {
   user: {
@@ -88,6 +89,19 @@ const Dashboard = ({ user }: HomeProps) => {
     }
   };
 
+  const handleShare = async (id: string) => {
+    await navigator.clipboard.writeText(
+      `${process.env.NEXT_PUBLIC_URL}/task/${id}`
+    );
+
+    alert("URL Copiada com sucesso!");
+  };
+
+  const handleDelete = async (id: string) => {
+    const docRef = doc(db, 'tarefas', id)
+    await deleteDoc(docRef);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -129,7 +143,7 @@ const Dashboard = ({ user }: HomeProps) => {
               {task.public && (
                 <div className={styles.tagContainer}>
                   <label className={styles.tag}>Publico</label>
-                  <button className={styles.sharedButton}>
+                  <button className={styles.sharedButton} onClick={() => handleShare(task.id)}>
                     <FiShare2 size={22} color='#0053ff' />
                   </button>
                 </div>
@@ -137,9 +151,17 @@ const Dashboard = ({ user }: HomeProps) => {
               }
 
               <div className={styles.taskContent}>
-                <p>Minha primeira tarefa de exemplo show de mais!</p>
+
+                {task.public ? (
+                  <Link href={`/task/${task.id}`}>
+                    <p>{task.tarefa}</p>
+                  </Link>
+                ) : (
+                  <p>{task.tarefa}</p>
+                )}
+
                 <button className={styles.trashButton}>
-                  <FaTrash size={24} color='#ea3140' />
+                  <FaTrash size={24} color='#ea3140' onClick={() => handleDelete(task.id)} />
                 </button>
               </div>
             </article>
