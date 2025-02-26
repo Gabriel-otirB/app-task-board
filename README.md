@@ -70,7 +70,3 @@ https://github.com/user-attachments/assets/8eefdc8f-2b51-4e39-b2ea-9fc8c76f41e3
    ```
 5. Abra um Pull Request.
 
-## Licença
-
-Este projeto é distribuído sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
-
