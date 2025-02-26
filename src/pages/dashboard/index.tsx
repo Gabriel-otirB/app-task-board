@@ -1,9 +1,11 @@
 import { GetServerSideProps } from 'next';
-import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
+import { getSession } from 'next-auth/react'
+
 import styles from './styles.module.css';
 
-import { getSession } from 'next-auth/react'
+import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import TextArea from '../../components/textArea';
 import { FiShare2 } from 'react-icons/fi';
 import { FaTrash } from 'react-icons/fa';
@@ -11,7 +13,8 @@ import { FaTrash } from 'react-icons/fa';
 import { db } from '../../services/firebaseConnection';
 
 import { addDoc, collection, query, orderBy, where, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
-import Link from 'next/link';
+
+import { Slide, toast } from 'react-toastify';
 
 interface HomeProps {
   user: {
@@ -84,8 +87,20 @@ const Dashboard = ({ user }: HomeProps) => {
 
       setInput('');
       setPublicTask(false);
+
+      toast.success('Tarefa criada com sucesso', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -94,12 +109,39 @@ const Dashboard = ({ user }: HomeProps) => {
       `${process.env.NEXT_PUBLIC_URL}/task/${id}`
     );
 
-    alert("URL Copiada com sucesso!");
+    toast.info('A tarefa foi copiada para sua área de transferência', {
+      position: "top-center",
+      autoClose: 3500,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Slide
+    });
   };
 
   const handleDelete = async (id: string) => {
-    const docRef = doc(db, 'tarefas', id)
-    await deleteDoc(docRef);
+    try {
+      const docRef = doc(db, 'tarefas', id)
+      await deleteDoc(docRef);
+
+      toast.success('Tarefa deletada com sucesso', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
   };
 
   return (

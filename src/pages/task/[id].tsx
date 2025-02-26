@@ -11,6 +11,8 @@ import { doc, collection, query, where, getDoc, getDocs, addDoc, deleteDoc } fro
 
 import TextArea from '../../components/textArea';
 
+import { Slide, toast } from 'react-toastify';
+
 interface TaskProps {
   item: {
     tarefa: string;
@@ -63,8 +65,20 @@ const Task = ({ item, allComments }: TaskProps) => {
 
       setComments((prevComments) => [...prevComments, data]);
       setInput('');
+
+      toast.success('Comentário adicionado com sucesso', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
@@ -76,8 +90,20 @@ const Task = ({ item, allComments }: TaskProps) => {
       const deleteComment = comments.filter((comment) => comment.id !== id);
 
       setComments(deleteComment);
+
+      toast.success('Comentário deletado com sucesso', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
